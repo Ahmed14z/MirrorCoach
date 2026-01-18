@@ -1,0 +1,40 @@
+[project]
+name = "mirrorcoach"
+version = "1.0.0"
+description = "Real-time AI communication coaching with video and audio feedback"
+requires-python = ">=3.11"
+dependencies = [
+    # Core Framework
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-multipart>=0.0.9",
+    "pydantic-settings>=2.0.0",
+    # Gemini Live API
+    "google-genai>=1.33.0",
+    # WebSocket
+    "websockets>=12.0",
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "poethepoet>=0.29.0",
+]
+
+[tool.poe.tasks]
+# Backend server
+server = { shell = "cd backend && uvicorn app.main:app --reload --port 8000" }
+
+# Frontend client
+client = { shell = "cd frontend && npm run dev" }
+
+# Run both backend and frontend concurrently
+both = { shell = "trap 'kill 0' EXIT; (cd backend && uvicorn app.main:app --reload --port 8000) & (cd frontend && npm run dev)" }
+
+# Install frontend dependencies
+install-client = { shell = "cd frontend && npm install" }
+
+# Install all dependencies (backend + frontend)
+install-all = { shell = "uv sync && cd frontend && npm install" }
