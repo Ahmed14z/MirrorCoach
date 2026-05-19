@@ -77,5 +77,3 @@ htmlcov/
 *.key
 credentials.json
 service-account.json
-temp_auto_push.bat
-temp_interactive_push.bat
